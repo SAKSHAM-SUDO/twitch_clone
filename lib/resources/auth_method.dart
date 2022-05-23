@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:twitch_clone/models/user.dart' as model;
 import 'package:twitch_clone/providers/user_provider.dart';
-import 'package:twitch_clone/utils/snackbar.dart';
+import 'package:twitch_clone/utils/utils.dart';
 
 class AuthMethods {
   final _userRef = FirebaseFirestore.instance.collection('users');

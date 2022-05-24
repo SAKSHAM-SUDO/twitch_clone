@@ -11,9 +11,10 @@ import 'package:twitch_clone/utils/utils.dart';
 
 class FireStoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final StorageMehtods _storageMehtods = StorageMehtods();
+  final StorageMethods _storageMethods = StorageMethods();
 
-  startLiveStream(BuildContext context, String title, Uint8List? image) async {
+  Future<String> startLiveStream(
+      BuildContext context, String title, Uint8List? image) async {
     final user = Provider.of<UserProvider>(context, listen: false);
     String channelId = '';
     try {
@@ -23,25 +24,30 @@ class FireStoreMethods {
                 .doc('${user.user.uid}${user.user.username}')
                 .get())
             .exists)) {
-          String thumbnailURL = await _storageMehtods.uploadImageToStorage(
-              'livestream-thumbnails', image, user.user.uid);
-
-          String channelId = '${user.user.uid}${user.user.username}';
+          String thumbnailUrl = await _storageMethods.uploadImageToStorage(
+            'livestream-thumbnails',
+            image,
+            user.user.uid,
+          );
+          channelId = '${user.user.uid}${user.user.username}';
+          print('channel id is : ${channelId}');
           LiveStream liveStream = LiveStream(
-              title: title,
-              image: thumbnailURL,
-              uid: user.user.uid,
-              username: user.user.username,
-              viewers: 0,
-              channelId: channelId,
-              startedAt: DateTime.now());
+            title: title,
+            image: thumbnailUrl,
+            uid: user.user.uid,
+            username: user.user.username,
+            viewers: 0,
+            channelId: channelId,
+            startedAt: DateTime.now(),
+          );
+
           _firestore
               .collection('livestream')
               .doc(channelId)
               .set(liveStream.toMap());
         } else {
           showSnackBar(
-              context, 'Two live streams cannot be started at same time');
+              context, 'Two Livestreams cannot start at the same time.');
         }
       } else {
         showSnackBar(context, 'Please enter all the fields');

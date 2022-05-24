@@ -34,6 +34,7 @@ class _BroadcastScreenState extends State<BroadcastScreen> {
   }
 
   void _initEngine() async {
+    print('from broadcast screen');
     _engine = await RtcEngine.createWithContext(RtcEngineContext(appId));
     _addListeners();
     await _engine.enableVideo();
@@ -51,7 +52,7 @@ class _BroadcastScreenState extends State<BroadcastScreen> {
     if (defaultTargetPlatform == TargetPlatform.android) {
       await [Permission.microphone, Permission.camera].request();
     }
-    await _engine.joinChannelWithUserAccount(tempToken, 'test123',
+    await _engine.joinChannelWithUserAccount(tempToken, 'test',
         Provider.of<UserProvider>(context, listen: false).user.uid);
   }
 

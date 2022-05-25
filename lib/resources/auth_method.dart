@@ -18,43 +18,52 @@ class AuthMethods {
     return null;
   }
 
-  Future<bool> signUpUser(BuildContext context, String email, String username,
-      String password) async {
+  Future<bool> signUpUser(
+    BuildContext context,
+    String email,
+    String username,
+    String password,
+  ) async {
     bool res = false;
     try {
       UserCredential cred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       if (cred.user != null) {
         model.User user = model.User(
-            uid: cred.user!.uid,
-            username: username.trim(),
-            email: email.trim());
+          username: username.trim(),
+          email: email.trim(),
+          uid: cred.user!.uid,
+        );
         await _userRef.doc(cred.user!.uid).set(user.toMap());
         Provider.of<UserProvider>(context, listen: false).setUser(user);
         res = true;
       }
     } on FirebaseAuthException catch (e) {
-      print(e.message!);
       showSnackBar(context, e.message!);
     }
     return res;
   }
 
   Future<bool> loginUser(
-      BuildContext context, String email, String password) async {
+    BuildContext context,
+    String email,
+    String password,
+  ) async {
     bool res = false;
     try {
       UserCredential cred = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
       if (cred.user != null) {
-        Provider.of<UserProvider>(context, listen: false)
-            .setUser(model.User.fromMap(
-          await getCurrentUser(cred.user!.uid) ?? {},
-        ));
+        Provider.of<UserProvider>(context, listen: false).setUser(
+          model.User.fromMap(
+            await getCurrentUser(cred.user!.uid) ?? {},
+          ),
+        );
         res = true;
       }
     } on FirebaseAuthException catch (e) {
-      print(e.message!);
       showSnackBar(context, e.message!);
     }
     return res;

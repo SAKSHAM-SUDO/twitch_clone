@@ -5,15 +5,18 @@ import 'package:firebase_storage/firebase_storage.dart';
 class StorageMethods {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  uploadImageToStorage(String childName, Uint8List file, String uid) async {
+  Future<String> uploadImageToStorage(
+      String childName, Uint8List file, String uid) async {
     Reference ref = _storage.ref().child(childName).child(uid);
     UploadTask uploadTask = ref.putData(
-        file,
-        SettableMetadata(
-          contentType: 'image/jpg',
-        ));
+      file,
+      SettableMetadata(
+        contentType: 'image/jpg',
+      ),
+    );
+
     TaskSnapshot snapshot = await uploadTask;
-    String downlaodUrl = await snapshot.ref.getDownloadURL();
-    return downlaodUrl;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
   }
 }

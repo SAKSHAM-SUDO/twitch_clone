@@ -31,7 +31,7 @@ class FireStoreMethods {
             user.user.uid,
           );
           channelId = '${user.user.uid}${user.user.username}';
-          print('channel id is : ${channelId}');
+
           LiveStream liveStream = LiveStream(
             title: title,
             image: thumbnailUrl,
@@ -57,6 +57,28 @@ class FireStoreMethods {
       showSnackBar(context, e.message!);
     }
     return channelId;
+  }
+
+  Future<void> chat(String text, String id, BuildContext context) async {
+    final user = Provider.of<UserProvider>(context, listen: false);
+
+    try {
+      String commentId = const Uuid().v1();
+      await _firestore
+          .collection('livestream')
+          .doc(id)
+          .collection('comments')
+          .doc(commentId)
+          .set({
+        'username': user.user.username,
+        'message': text,
+        'uid': user.user.uid,
+        'createdAt': DateTime.now(),
+        'commentId': commentId,
+      });
+    } on FirebaseException catch (e) {
+      showSnackBar(context, e.message!);
+    }
   }
 
   Future<void> updateViewCount(String id, bool isIncrease) async {
@@ -92,29 +114,4 @@ class FireStoreMethods {
       debugPrint(e.toString());
     }
   }
-
-  Future<void> chat(
-      String message, String channelId, BuildContext context) async {
-    final user = Provider.of<UserProvider>(context, listen: false);
-    try {
-      // uuid package provied us with random generated id based on time
-      String commentId = const Uuid().v1();
-      await _firestore
-          .collection('livestream')
-          .doc(channelId)
-          .collection('comments')
-          .doc(commentId)
-          .set({
-        'username': user.user.username,
-        'message': message,
-        'uid': user.user.uid,
-        'createdAt': DateTime.now(),
-        'commentId': commentId
-      });
-    } on FirebaseException catch (e) {
-      showSnackBar(context, e.message!);
-    }
-  }
-  //   Future<void> chat(String text, String id, BuildContext context) async {
-
 }

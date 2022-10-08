@@ -17,25 +17,42 @@ class OnboardingScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Spacer(
+                flex: 1,
+              ),
+              Image.asset('assets/black.png'),
               const Text(
-                "Welocme to \n Twitch",
+                "Welocme to Twitch",
                 style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(
-                height: 20,
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              Spacer(
+                flex: 1,
               ),
-              CustomButton(
-                  text: 'Log In',
-                  onTap: () {
-                    Navigator.pushNamed(context, LoginScreen.routeName);
-                  }),
-              CustomButton(
-                  text: 'Sign Up',
-                  onTap: () {
-                    Navigator.pushNamed(context, SignupScreen.routeName);
-                  }),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomButton(
+                      text: 'Login',
+                      onTap: () {
+                        Navigator.pushNamed(context, LoginScreen.routeName);
+                      }),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  CustomButton(
+                      text: 'Signup',
+                      onTap: () {
+                        Navigator.pushNamed(context, SignupScreen.routeName);
+                      }),
+                  SizedBox(height: 20)
+                ],
+              ),
             ],
           ),
         ),

@@ -122,9 +122,8 @@ class _GoLiveScreenState extends State<GoLiveScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: CustomTextField(
-                            controller: _titleController,
-                          ),
+                          child: CustomtextField(
+                              controller: _titleController, isPassword: false),
                         ),
                       ],
                     ),

@@ -61,8 +61,9 @@ class _ChatState extends State<Chat> {
                     ),
                   );
                 }))),
-        CustomTextField(
+        CustomtextField(
           controller: _chatController,
+          isPassword: false,
           onTap: (val) {
             FireStoreMethods()
                 .chat(_chatController.text, widget.channelId, context);

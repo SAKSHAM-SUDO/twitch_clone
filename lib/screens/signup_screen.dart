@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:twitch_clone/resources/auth_method.dart';
 import 'package:twitch_clone/responsive/responsive.dart';
 import 'package:twitch_clone/screens/home_screen.dart';
+import 'package:twitch_clone/screens/login_screen.dart';
 import 'package:twitch_clone/widgets/custom_button.dart';
 import 'package:twitch_clone/widgets/custom_textfield.dart';
 import 'package:twitch_clone/widgets/loading_indicator.dart';
@@ -48,60 +49,131 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Sign Up"),
-      ),
+      appBar: AppBar(),
       body: isLoading
           ? const LoadingIndicator()
           : Responsive(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: size.height * 0.1,
+              // child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Text(
+                              'Sign Up',
+                              style: TextStyle(
+                                  fontSize: 40, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
                       ),
-                      const Text(
-                        'Email',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    // SizedBox(
+                    //   height: size.height * 0.1,
+                    // ),
+
+                    Flexible(
+                      flex: 2,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        // mainAxisSize: MainAxisSize.,
+
+                        children: [
+                          Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: const Text(
+                                  'Email',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              CustomtextField(
+                                  controller: _emailControler,
+                                  isPassword: false)
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Username ',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              CustomtextField(
+                                  controller: _usernameControler,
+                                  isPassword: false),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: const Text(
+                                  'Password',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              CustomtextField(
+                                  controller: _passwordControler,
+                                  isPassword: true),
+                            ],
+                          ),
+                        ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: CustomTextField(controller: _emailControler),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Column(
+                        // mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, LoginScreen.routeName);
+                              },
+                              child: Text(
+                                'Already have an account?',
+                                style:
+                                    TextStyle(fontSize: 14, color: Colors.grey),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          CustomButton(text: 'Sign Up', onTap: signUpUser),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        'Username ',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: CustomTextField(controller: _usernameControler),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        'Password',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: CustomTextField(controller: _passwordControler),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      CustomButton(text: 'Sign Up', onTap: signUpUser)
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
             ),
+      // ),
     );
   }
 }

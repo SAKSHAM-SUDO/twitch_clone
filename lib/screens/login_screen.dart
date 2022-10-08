@@ -45,46 +45,90 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login"),
-      ),
+      appBar: AppBar(),
       body: isLoading
           ? const LoadingIndicator()
           : Responsive(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: size.height * 0.1,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Text(
+                              'Log In',
+                              style: TextStyle(
+                                  fontSize: 40, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
                       ),
-                      const Text(
-                        'Email',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Flexible(
+                      flex: 2,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: const Text(
+                                  'Email',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8.0),
+                                child: CustomtextField(
+                                    controller: _emailControler,
+                                    isPassword: false),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: const Text(
+                                  'Password',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8.0),
+                                child: CustomtextField(
+                                    controller: _passwordControler,
+                                    isPassword: true),
+                              ),
+                            ],
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: InkWell(
+                              child: Text(
+                                'Forgot password?',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey),
+                              ),
+                              onTap: () {},
+                            ),
+                          )
+                        ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: CustomTextField(controller: _emailControler),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        'Password',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: CustomTextField(controller: _passwordControler),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      CustomButton(text: 'Log In', onTap: loginUser)
-                    ],
-                  ),
+                    ),
+                    Flexible(
+                        flex: 1,
+                        child: Center(
+                            child:
+                                CustomButton(text: 'Login', onTap: loginUser)))
+                  ],
                 ),
               ),
             ),
